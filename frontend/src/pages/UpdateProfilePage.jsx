@@ -2,6 +2,7 @@ import { Button, Flex, FormControl, FormLabel, Heading, Input, Stack, useColorMo
 
 import React, { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import userAtom from "../atoms/userAtom";
 import usePreviewImage from "../../hooks/usePreviewImage";
 import useShowToast from "../../hooks/useShowToast";
@@ -27,6 +28,8 @@ const UpdateProfilePage = () => {
     const [userAtomValue, setUserAtomValue] = useRecoilState(userAtom);
 
     const [updating, setUpdating] = useState(false);
+
+    const navigate = useNavigate();
 
     const [userDetails, setUserDeatails] = useState({
         name: userAtomValue.name,
@@ -81,6 +84,9 @@ const UpdateProfilePage = () => {
 
             setUserAtomValue(data);
             localStorage.setItem("user-threads", JSON.stringify(data));
+            // submit vye paxi redirect pani garni to the logged in user ko profile page i.e upaded username ma navigate garnu paryo jun chai response ma auxa
+            // as data.username
+            navigate(`/${data.username}`);
 
             // kita yo arko method server baa without response wala
 
@@ -225,6 +231,7 @@ const UpdateProfilePage = () => {
                     </FormControl>
                     <Stack spacing={6} direction={["column", "row"]}>
                         <Button
+                            onClick={() => navigate(`/${userAtomValue.username}`)}
                             bg={"red.400"}
                             color={"white"}
                             w="full"
